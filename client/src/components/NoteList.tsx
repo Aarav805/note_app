@@ -1,5 +1,16 @@
 import type { Note } from "../types";
 
+// Strips common markdown syntax so sidebar previews read as plain text.
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/^#{1,6}\s+/gm, "") // headings
+    .replace(/\*\*(.*?)\*\*/g, "$1") // bold
+    .replace(/\*(.*?)\*/g, "$1") // italic
+    .replace(/`(.*?)`/g, "$1") // inline code
+    .replace(/^[-*]\s+/gm, "") // list bullets
+    .trim();
+}
+
 interface Props {
   notes: Note[];
   selectedId: number | null;
@@ -52,7 +63,7 @@ export function NoteList({
               {note.title || "Untitled"}
             </div>
             <div className="text-xs text-gray-500 truncate mt-0.5">
-              {note.content.slice(0, 60) || "No content"}
+              {stripMarkdown(note.content).slice(0, 60) || "No content"}
             </div>
             {note.tags.length > 0 && (
               <div className="flex gap-1 mt-1 flex-wrap">
