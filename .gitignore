@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.log
+.env
+
+# SQLite database files (don't commit your actual notes)
+*.db
+*.db-shm
+*.db-wal
